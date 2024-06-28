@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Calculadora</title>
+</head>
+
+<body>
+
+    <div class="calculator">
+        <!-- Display and values -->
+        <div class="screen">
+            <div class="options">
+                <span class="history">H</span>
+                <span id="answer" class="answer">Ans</span>
+            </div>
+            <span id="value" class="value">0</span>
+        </div>
+        <!-- keyboard -->
+        <div class="keyboard">
+            <div class="sidekeys">
+                <div id="conf" class="btn operator">
+                    <input class="radio_input" id="rad" name="radio" value="option1" type="radio" checked>
+                    <label class="radio_label" for="rad">Rad</label>
+                    <span>|</span>
+                    <input class="radio_input" id="deg" name="radio" value="option2" type="radio">
+                    <label class="radio_label" for="deg">Deg</label>
+                </div>
+
+                <button class="btn operator2"> x! </button>
+                <button class="btn operator2"> Inv </button>
+                <button class="btn operator2"> Sin </button>
+                <button class="btn operator2"> In </button>
+                <button class="btn operator2"> &#8730; </button>
+                <button class="btn operator2"> Cos </button>
+                <button class="btn operator2"> Log </button>
+                <button class="btn operator2"> e </button>
+                <button class="btn operator2"> Tan </button>
+                <button class="btn operator2"> &#8730; </button>
+                <button class="btn operator2"> Ans </button>
+                <button class="btn operator2"> EXP </button>
+                <button class="btn operator2"> x^y </button>
+
+            </div>
+            <div class="mainkeys">
+                <button id="p1" class="btn operator"> &#40; </button>
+                <button id="p2" class="btn operator"> &#41; </button>
+                <button id="%" class="btn operator"> % </button>
+                <!-- text -->
+                <button id="ac" class="btn operator hide"> AC </button>
+                <button id="ec" class="btn operator"> EC </button>
+                <!-- test -->
+                <button class="btn number">7</button>
+                <button class="btn number">8</button>
+                <button class="btn number">9</button>
+                <button id="÷" class="btn operator">÷</button>
+                <button class="btn number">4</button>
+                <button class="btn number">5</button>
+                <button class="btn number">6</button>
+                <button id="x" class="btn operator"> &#215; </button>
+                <button class="btn number">1</button>
+                <button class="btn number">2</button>
+                <button class="btn number">3</button>
+                <button id="-" class="btn operator"> - </button>
+                <button class="btn number">0</button>
+                <button class="btn number">&#46;</button>
+                <button id="equal" class="btn equal operator"> = </button>
+                <button id="+" class="btn operator"> &#43; </button>
+
+            </div>
+
+        </div>
+        <!-- switch-->
+        <div id="switch" class="switch">
+            <input class="switch__radio" id="radio1" name="radio__switch" value="option1" type="radio" checked>
+            <label class="radio_label label1" for="radio1">123</label>
+            <input class="switch__radio" id="radio2" name="radio__switch" value="option2" type="radio">
+            <label class="radio_label label2" for="radio2">Fx</label>
+        </div>
+    </div>
+
+    <!-- JavaScript  -->
+    <script src="Calculator.js" type="text/javascript"></script>
+    <script src="Display.js" type="text/javascript"></script>
+    <script src="index.js" type="text/javascript"></script>
+</body>
+
+</html>

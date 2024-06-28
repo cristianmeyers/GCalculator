@@ -1,0 +1,189 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+:root {
+  scroll-behavior: smooth;
+  --main-bg-color: #ffffff;
+  --accent-color2: #0f0f0fd3;
+  --accent-color: #898a8a;
+  --button-color: #f1f3f4;
+  --operator-color-blue: #4285f4;
+  --operator-color: #dadce0;
+}
+html {
+  font-size: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  height: 100vh;
+  width: 100%;
+  padding: 0 1rem;
+  display: grid;
+  place-items: center;
+}
+/*------------------------ Screen */
+
+.screen {
+  width: 100%;
+  overflow: hidden;
+  height: 7rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border: 0.1rem solid var(--accent-color);
+  border-radius: 1rem;
+  .options {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.5rem;
+    font-weight: 100;
+    .answer {
+      color: var(--accent-color);
+    }
+  }
+  .value {
+    display: block;
+    width: 100%;
+    font-size: 3rem;
+    text-align: end;
+  }
+}
+.screen:hover {
+  border-top: 1px solid var(--accent-color2);
+}
+.keyboard {
+  display: flex;
+  /*--------------------- Side Keys*/
+  .sidekeys {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.8rem;
+    margin-right: 0.8rem;
+    .radio_input {
+      display: none;
+    }
+    .radio_label {
+      color: var(--accent-color);
+      cursor: pointer;
+      transition: ease 0.5s;
+    }
+    .radio_input:checked + .radio_label {
+      color: black;
+    }
+
+    #conf {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      grid-column: 1/3;
+      width: 100%;
+    }
+  }
+  /*--------------------- Main keys*/
+  .mainkeys {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.8rem;
+  }
+  /*---------------------- Button and hover scale*/
+  .btn {
+    display: grid;
+    place-content: center;
+    color: black;
+    width: 8.5rem;
+    height: 3.5rem;
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 100;
+    border-radius: 0.5rem;
+    background-color: var(--button-color);
+    cursor: pointer;
+    transition: all ease 0.5s;
+    border: none;
+  }
+  .btn:hover {
+    transform: scale(1.1);
+  }
+}
+.keyboard .mainkeys,
+.keyboard .sidekeys {
+  .operator {
+    background-color: var(--operator-color);
+  }
+  .operator2 {
+    color: #fa4002;
+  }
+  .hide {
+    display: none;
+  }
+}
+
+.keyboard .mainkeys .equal {
+  background-color: var(--operator-color-blue);
+  color: white;
+}
+/*
+================================  switch // Experiemental responsive design
+*/
+.switch {
+  display: none;
+  margin-top: 1.5rem;
+  width: 14rem;
+
+  .radio_label {
+    width: 50%;
+    height: 3.5rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: rgb(96, 96, 96);
+    border: 0.1rem solid var(--operator-color);
+  }
+  .label1 {
+    display: flex;
+    border-right: none;
+    justify-content: space-around;
+    align-items: center;
+    border-top-left-radius: 2rem;
+    border-bottom-left-radius: 2rem;
+  }
+  .label2 {
+    display: flex;
+    border-left: none;
+    justify-content: space-around;
+    align-items: center;
+    border-top-right-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+  }
+  .switch__radio:checked + .radio_label {
+    background-color: aqua; /*   change the color here   */
+    border-color: #4285f4;
+  }
+
+  .switch__radio {
+    display: none;
+  }
+}
+
+/*
+======================= responsive design test
+*/
+
+/* Media query para dispositivos con ancho máximo de 768px (por ejemplo, tablets y móviles) */
+@media (max-width: 768px) {
+  .calculator .sidekeys {
+    display: none; /* Oculta el elemento en dispositivos móviles */
+  }
+  .switch {
+    display: flex;
+  }
+}
+
+/*
+  Version : 1.2.1
+
+
+*/
