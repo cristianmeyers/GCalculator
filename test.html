@@ -46,7 +46,7 @@
                 // 19-21: Números negativos
                 { input: [-2, 'x', 3], expected: -6, description: "Multiplicación con número negativo" },
                 { input: [-4, '/', 2], expected: -2, description: "División con número negativo" },
-                { input: [-3, '+', '(', 4, '/', -2, ')'], expected: 1, description: "Suma y división con número negativo" },
+                { input: [-3, '+', '(', 4, '/', -2, ')'], expected: -5, description: "Suma y división con número negativo" },
 
                 // 22-23: Operaciones con fracciones
                 { input: [0.5, '+', 0.25], expected: 0.75, description: "Suma de fracciones" },
@@ -60,6 +60,13 @@
                 // 27-28: Expresiones regulares con paréntesis
                 { input: [-4, '/', -2], expected: 2, description: "División con números negativos" },
                 { input: ['(', -3, ')', '*', '(', 5, '-', -2, ')'], expected: -21, description: "Multiplicación implícita con paréntesis y negativos" },
+
+                // 29-32: Expresiones con doble signos
+                { input: [5, '-', '-', 5], expected: 10, description: "Operadores consecutivos '--' interpretados como suma" },
+                { input: [5, '+', '-', 5], expected: 0, description: "Operadores consecutivos '+-' interpretados como resta" },
+                { input: [5, '-', '+', 5], expected: 0, description: "Operadores consecutivos '-+' interpretados como resta" },
+                { input: [5, '+', '+', 5], expected: 10, description: "Operadores consecutivos '++' interpretados como suma" },
+
             ];
 
             // Ejecutar cada caso de prueba
@@ -81,8 +88,17 @@
             return Math.round(value * 10 ** decimals) / 10 ** decimals;
         }
 
+
         // Función principal evaluateExpression (incluida para que sea autónoma)
         function evaluateExpression(expressionArray) {
+            function preprocessExpression(input) {
+                // Convierte operadores consecutivos:
+                // "--" se convierte en "+"
+                // "+-" se convierte en "-"
+                // "-+" se convierte en "-"
+                // "++" se mantiene como "+"
+                return input.replace(/--/g, '+').replace(/\+-/g, '-').replace(/-\+/g, '-').replace(/\+\+/g, '+');
+            }
             // Reemplazar operadores y funciones personalizadas
             let processedArray = expressionArray.map(item => {
                 if (item === 'x') return '*'; // Reemplazo para multiplicación
@@ -128,10 +144,13 @@
 
             // Evaluar la expresión
             try {
-                let expression = eval(resultArray.join(''));
+                let expression = eval(preprocessExpression(resultArray.join('')));
                 if (expression === Infinity) {
                     return "Error al evaluar la expresión: Division by zero"
-                } else {
+                } else if (isNaN(expression)) {
+                    return "Error al evaluar la expresión: Unexpected end of input";
+                }
+                else {
                     return roundResult(expression); // Redondear antes de devolver
                 }
 
