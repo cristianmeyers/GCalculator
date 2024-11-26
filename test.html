@@ -1,172 +1,91 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora Extendida</title>
+    <link rel="stylesheet" href="style/style.css">
+    <title>Calculadora</title>
 </head>
 
 <body>
-    <script>
-        // Realiza pruebas automáticas para la función evaluateExpression.
-        function evaluationTest(expressionToTest) {
-            // Definición de casos de prueba
-            const testCases = [
-                // 1-4: Operaciones básicas
-                { input: [2, '+', 2], expected: 4, description: "Suma básica" },
-                { input: [5, '-', 3], expected: 2, description: "Resta básica" },
-                { input: [4, 'x', 2], expected: 8, description: "Multiplicación con operador personalizado" },
-                { input: [8, '/', 2], expected: 4, description: "División básica" },
 
-                // 5-7: Funciones trigonométricas
-                { input: ['sin', '(', 0, ')'], expected: 0, description: "Función seno en 0" },
-                { input: ['cos', '(', 0, ')'], expected: 1, description: "Función coseno en 0" },
-                { input: ['tan', '(', 0, ')'], expected: 0, description: "Función tangente en 0" },
+    <div class="calculator">
+        <!-- Display and values -->
+        <div class="screen">
+            <div class="options">
+                <span class="history">H</span>
+                <span id="answer" class="answer">Ans</span>
+            </div>
+            <span id="value" class="value">0</span>
+        </div>
+        <!-- keyboard -->
+        <div class="keyboard">
+            <div class="sidekeys">
+                <div id="conf" class="btn operator">
+                    <input class="radio_input" id="rad" name="radio" value="option1" type="radio" checked>
+                    <label class="radio_label" for="rad">Rad</label>
+                    <span>|</span>
+                    <input class="radio_input" id="deg" name="radio" value="option2" type="radio">
+                    <label class="radio_label" for="deg">Deg</label>
+                </div>
 
-                // 8-9: Multiplicaciones implícitas
-                { input: [2, '(', 2, '+', 2, ')'], expected: 8, description: "Multiplicación implícita antes de paréntesis" },
-                { input: ['(', 2, '+', 2, ')', '(', 2, '+', 3, ')'], expected: 20, description: "Multiplicación implícita entre paréntesis" },
+                <button class="btn operator2" value="factorial"> x! </button>
+                <button class="btn operator2" value="inverse"> Inv </button>
+                <button class="btn operator2" value="sin"> Sin </button>
+                <button class="btn operator2" value="ln"> In </button>
+                <button class="btn operator2" value="sqrt"> &#8730; </button>
+                <button class="btn operator2" value="cos"> Cos </button>
+                <button class="btn operator2" value="log"> Log </button>
+                <button class="btn operator2" value="e"> e </button>
+                <button class="btn operator2" value="tan"> Tan </button>
+                <button class="btn operator2" value="sqrt"> &#8730; </button>
+                <button class="btn operator2" value="ans"> Ans </button>
+                <button class="btn operator2" value="exp"> EXP </button>
+                <button class="btn operator2" value="power"> x^y </button>
 
-                // 10-12: Manejo de errores
-                { input: [5, '+', '(', 3], expected: "Error: paréntesis desbalanceados", description: "Error de paréntesis desbalanceados" },
-                { input: ['(', 2, '+', 2, ')', '/', 0], expected: "Error al evaluar la expresión: Division by zero", description: "Error de división por cero" },
-                { input: [3, '+', 'sin'], expected: "Error al evaluar la expresión: Unexpected end of input", description: "Función sin malformada" },
+            </div>
+            <div class="mainkeys">
+                <button id="p1" class="btn operator" value="(">&#40;</button>
+                <button id="p2" class="btn operator" value=")">&#41;</button>
+                <button id="%" class="btn operator" value="%">%</button>
+                <button id="ac" class="btn operator hide" value="ac">AC</button>
+                <button id="ec" class="btn operator" value="ec">EC</button>
 
-                // 13-15: Operaciones complejas
-                { input: [3, '+', 4, 'x', 2, '/', '(', 1, '-', 5, ')'], expected: 1, description: "Expresión compleja con múltiples operadores" },
-                { input: ['(', 2, '+', 3, ')', 'x', '(', 4, '-', 1, ')'], expected: 15, description: "Multiplicación implícita y operaciones combinadas" },
-                { input: [10, '/', '(', 2, '+', 3, ')'], expected: 2, description: "División con paréntesis" },
+                <button class="btn number" value="7">7</button>
+                <button class="btn number" value="8">8</button>
+                <button class="btn number" value="9">9</button>
+                <button id="÷" class="btn operator" value="÷">÷</button>
 
-                // 16-18: Funciones trigonométricas avanzadas
-                { input: ['sin', '(', Math.PI, '/', 2, ')'], expected: 1, description: "Función seno con PI/2" },
-                { input: ['cos', '(', Math.PI, ')'], expected: -1, description: "Función coseno con PI" },
-                { input: ['tan', '(', Math.PI, '/', 4, ')'], expected: 1, description: "Función tangente con PI/4" },
+                <button class="btn number" value="4">4</button>
+                <button class="btn number" value="5">5</button>
+                <button class="btn number" value="6">6</button>
+                <button id="x" class="btn operator" value="*">&#215;</button>
 
-                // 19-21: Números negativos
-                { input: [-2, 'x', 3], expected: -6, description: "Multiplicación con número negativo" },
-                { input: [-4, '/', 2], expected: -2, description: "División con número negativo" },
-                { input: [-3, '+', '(', 4, '/', -2, ')'], expected: -5, description: "Suma y división con número negativo" },
+                <button class="btn number" value="1">1</button>
+                <button class="btn number" value="2">2</button>
+                <button class="btn number" value="3">3</button>
+                <button id="-" class="btn operator" value="-">-</button>
 
-                // 22-23: Operaciones con fracciones
-                { input: [0.5, '+', 0.25], expected: 0.75, description: "Suma de fracciones" },
-                { input: [5, '-', '(', 2.5, 'x', 2, ')'], expected: 0, description: "Operación con fracciones y paréntesis" },
+                <button class="btn number" value="0">0</button>
+                <button class="btn number" value=".">.</button>
+                <button id="equal" class="btn equal operator" value="=">=</button>
+                <button id="+" class="btn operator" value="+">&#43;</button>
+            </div>
 
-                // 24-26: Manejo de errores avanzados
-                { input: ['(', 3, '+', 5, ')', '*', ')'], expected: "Error: paréntesis desbalanceados", description: "Paréntesis extraños desbalanceados" },
-                { input: [10, '-', '(', 3, '*', 3, '+', '(', 1, ')'], expected: "Error: paréntesis desbalanceados", description: "Errores en el anidado de paréntesis" },
-                { input: [1, '/', 0], expected: "Error al evaluar la expresión: Division by zero", description: "División por cero" },
+        </div>
+        <!-- switch-->
+        <div id="switch" class="switch">
+            <input class="switch__radio" id="radio1" name="radio__switch" value="option1" type="radio" checked>
+            <label class="radio_label label1" for="radio1">123</label>
+            <input class="switch__radio" id="radio2" name="radio__switch" value="option2" type="radio">
+            <label class="radio_label label2" for="radio2">Fx</label>
+        </div>
+    </div>
 
-                // 27-28: Expresiones regulares con paréntesis
-                { input: [-4, '/', -2], expected: 2, description: "División con números negativos" },
-                { input: ['(', -3, ')', '*', '(', 5, '-', -2, ')'], expected: -21, description: "Multiplicación implícita con paréntesis y negativos" },
-
-                // 29-32: Expresiones con doble signos
-                { input: [5, '-', '-', 5], expected: 10, description: "Operadores consecutivos '--' interpretados como suma" },
-                { input: [5, '+', '-', 5], expected: 0, description: "Operadores consecutivos '+-' interpretados como resta" },
-                { input: [5, '-', '+', 5], expected: 0, description: "Operadores consecutivos '-+' interpretados como resta" },
-                { input: [5, '+', '+', 5], expected: 10, description: "Operadores consecutivos '++' interpretados como suma" },
-
-            ];
-
-            // Ejecutar cada caso de prueba
-            testCases.forEach(({ input, expected, description }, index) => {
-                const result = expressionToTest(input);
-
-                if (result === expected) {
-                    console.log(`✅ Test ${index + 1}: ${description} - PASÓ`);
-                } else {
-                    console.error(`❌ Test ${index + 1}: ${description} - FALLÓ`);
-                    console.error(`   Entrada: ${input}`);
-                    console.error(`   Resultado esperado: ${expected}`);
-                    console.error(`   Resultado obtenido: ${result}`);
-                }
-            });
-        }
-        // Redondeo
-        function roundResult(value, decimals = 10) {
-            return Math.round(value * 10 ** decimals) / 10 ** decimals;
-        }
-
-
-        // Función principal evaluateExpression (incluida para que sea autónoma)
-        function evaluateExpression(expressionArray) {
-            function preprocessExpression(input) {
-                // Convierte operadores consecutivos:
-                // "--" se convierte en "+"
-                // "+-" se convierte en "-"
-                // "-+" se convierte en "-"
-                // "++" se mantiene como "+"
-                return input.replace(/--/g, '+').replace(/\+-/g, '-').replace(/-\+/g, '-').replace(/\+\+/g, '+');
-            }
-            // Reemplazar operadores y funciones personalizadas
-            let processedArray = expressionArray.map(item => {
-                if (item === 'x') return '*'; // Reemplazo para multiplicación
-                if (item === 'sin') return 'Math.sin'; // Reemplazo para seno
-                if (item === 'cos') return 'Math.cos'; // Reemplazo para coseno
-                if (item === 'tan') return 'Math.tan'; // Reemplazo para tangente
-                return item;
-            });
-
-            let resultArray = [];
-            processedArray.forEach((data, index) => {
-                // Insertar multiplicación implícita antes de paréntesis abierto si es necesario
-                if (data === '(' && !isNaN(processedArray[index - 1])) {
-                    resultArray.push('*');
-                }
-
-                // Insertar multiplicación implícita entre paréntesis consecutivos
-                if (data === '(' && processedArray[index - 1] === ')') {
-                    resultArray.push('*');
-                }
-
-                resultArray.push(data);
-
-                // Insertar multiplicación implícita después de paréntesis cerrado si es necesario
-                if (data === ')' && !isNaN(processedArray[index + 1])) {
-                    resultArray.push('*');
-                }
-            });
-
-            // Validar paréntesis balanceados
-            let openParen = 0;
-            let isValid = true;
-            resultArray.forEach(item => {
-                if (item === '(') openParen++;
-                if (item === ')') openParen--;
-                if (openParen < 0) isValid = false; // Paréntesis cerrado antes de abrir uno
-            });
-
-            if (openParen !== 0) isValid = false; // Paréntesis desbalanceados
-            if (!isValid) {
-                return "Error: paréntesis desbalanceados";
-            }
-
-            // Evaluar la expresión
-            try {
-                let expression = eval(preprocessExpression(resultArray.join('')));
-                if (expression === Infinity) {
-                    return "Error al evaluar la expresión: Division by zero"
-                } else if (isNaN(expression)) {
-                    return "Error al evaluar la expresión: Unexpected end of input";
-                }
-                else {
-                    return roundResult(expression); // Redondear antes de devolver
-                }
-
-            } catch (error) {
-                return `Error al evaluar la expresión: ${error.message}`;
-            }
-        }
-
-        // Llamar a la función de pruebas
-        evaluationTest(evaluateExpression);
-
-        // input2 = ['(', 2, '+', 2, ')', '(', 2, '+', 3, ')', 'sin', '(', 2, ')', '+', 7];
-
-        //console.log(evaluateExpression(input2));
-
-    </script>
+    <!-- JavaScript  -->
+    <script src="/scripts/Calc.js" type="text/javascript"></script>
+    <script src="/scripts/app.js" type="text/javascript"></script>
 </body>
 
 </html>
