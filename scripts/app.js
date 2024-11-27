@@ -14,33 +14,39 @@ function toggleButtons() {
     ecButton.classList.remove("hide");
   }
 }
+// agroupador de funciones matematicas
+function groupMathFunctions(arr) {
+  // Definir las funciones matemáticas que buscamos
+  const functions = ["sin", "cos", "tan", "log", "sqrt", "ln"];
 
-// generador de array
-function toArray(expression) {
-  const tokens = [];
-  let currentToken = "";
+  let result = [];
+  let temp = ""; // Variable temporal para construir las palabras
 
-  for (let char of expression) {
-    if (!isNaN(char) || char === ".") {
-      // Si es número o punto decimal, añadir al token actual
-      currentToken += char;
-    } else {
-      // Si es un operador o paréntesis, guardar el token actual y reiniciar
-      if (currentToken) {
-        tokens.push(currentToken);
-        currentToken = "";
-      }
-      tokens.push(char); // Añadir el operador o paréntesis como un token separado
+  // Recorremos el array
+  for (let i = 0; i < arr.length; i++) {
+    temp += arr[i]; // Vamos añadiendo los caracteres a la cadena temporal
+
+    // Si la cadena temporal corresponde a una función matemática, la agregamos al resultado
+    if (functions.includes(temp)) {
+      result.push(temp); // Añadir la función al array de resultado
+      temp = ""; // Reiniciar la cadena temporal
     }
   }
 
-  // Añadir el último token si existe
-  if (currentToken) tokens.push(currentToken);
+  // Si queda algo en 'temp' que no es una función, lo añadimos tal cual
+  if (temp) {
+    result.push(temp);
+  }
 
-  // Normalizar ciertos operadores (si es necesario)
-  return tokens.map((token) =>
-    token === "x" ? "*" : token === "÷" ? "/" : token
-  );
+  return result;
+}
+
+// Generador de array
+function toArray(expression) {
+  let array = expression.split("");
+  // Filtrar los elementos que no sean espacios en blanco
+  let cleanedArray = array.filter((item) => !/^\s*$/.test(item));
+  return groupMathFunctions(cleanedArray);
 }
 
 // agnadir a pantalla
@@ -49,17 +55,29 @@ function appendScreen(text) {
     screen.textContent === "0" ? text : screen.textContent + text;
 }
 
+// toggle for each
+buttons.forEach((button) => {
+  button.addEventListener("click", () => {
+    reload = false;
+    toggleButtons();
+    switch (button.value) {
+      case "=":
+        reload = true;
+        toggleButtons();
+        break;
+      default:
+        break;
+    }
+  });
+});
+
 // Añadir eventos a todos los botones
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
     const value = button.value;
 
-    reload = false; // Reiniciar para ocultar el botón "ac"
-    toggleButtons(); // Alternar la visibilidad de los botones
-
     // Si es un número, lo añadimos correctamente
     if (!isNaN(value) || value === ".") {
-      // Si la pantalla muestra 0 o está vacía, reemplazamos el contenido
       appendScreen(value);
     } else {
       // Si es un operador o función especial
@@ -82,16 +100,19 @@ buttons.forEach((button) => {
           // Eliminar el último carácter
           screen.textContent = screen.textContent.slice(0, -1) || "0";
           break;
+        case "*":
+          appendScreen(button.textContent);
+          break;
 
         case "=":
-          // class toggle
-          reload = true;
-          toggleButtons();
           // validate expression
 
           const expressionArray = toArray(screen.textContent); // Convertir a array
           console.log(expressionArray);
+
           const result = evaluateExpression(expressionArray); // Evaluar
+
+          // imprimir el valor si no es un error
           if (typeof result === "string" && result.startsWith("Error")) {
             console.error("Error detectado:", result); // Para depuración
             screen.textContent = "Error";

@@ -208,7 +208,8 @@ function evaluateExpression(expressionArray) {
   }
   // Reemplazar operadores y funciones personalizadas
   let processedArray = expressionArray.map((item) => {
-    if (item === "x") return "*"; // Reemplazo para multiplicación
+    if (item === "x") return "*"; // Reemplazo para multiplicación x normal
+    if (item === "✕") return "*"; // simbolo ✕
     if (item === "sin") return "Math.sin"; // Reemplazo para seno
     if (item === "cos") return "Math.cos"; // Reemplazo para coseno
     if (item === "tan") return "Math.tan"; // Reemplazo para tangente

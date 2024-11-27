@@ -114,9 +114,6 @@ body {
   .operator {
     background-color: var(--operator-color);
   }
-  .operator2 {
-    color: #fa4002;
-  }
   .hide {
     display: none;
   }
